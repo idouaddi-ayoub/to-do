@@ -326,7 +326,10 @@ function Note({ note }: Props) {
             <DropdownMenu.Separator className="DropdownMenuSeparator" />
 
             <DropdownMenu.Item
-              onClick={() => deleteNote(note.id)}
+              onClick={() => {
+                eventEmitter.emit("note_update");
+                deleteNote(note.id);
+              }}
               className="text-red-500 text-xs leading-none rounded-sm focus:outline-none font-bold flex items-center h-6 p-2 relative select-none"
             >
               Delete
