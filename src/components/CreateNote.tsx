@@ -3,6 +3,7 @@ import useAxios from "../hooks/useAxios";
 import useCategories from "../hooks/useCategories";
 import { DueDate, Effort, Priority, State } from "../types";
 import { useForm, SubmitHandler } from "react-hook-form";
+import useEventEmitter from "../hooks/useEventEmitter";
 
 interface FormState {
   name: string;
@@ -28,6 +29,7 @@ const PRIORITIES: Priority[] = ["high", "low", "medium"];
 const EFFORTS: Effort[] = ["moderate", "easy", "hard"];
 
 function CreatedNote() {
+  const eventEmitter = useEventEmitter();
   const axios = useAxios();
   const { categories, getCategories } = useCategories();
   const { register, handleSubmit } = useForm<FormState>();
@@ -51,6 +53,7 @@ function CreatedNote() {
     } catch (error) {
       console.error(error);
     }
+    eventEmitter.emit("note_update");
   };
 
   useEffect(() => {
